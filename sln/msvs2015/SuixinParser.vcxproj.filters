@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{5120061c-5e17-4dc5-9f3b-7a9807eca1dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\helper">
+      <UniqueIdentifier>{f888d0cb-5253-40f2-b688-d5ca52ab2222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MaiSoft">
+      <UniqueIdentifier>{ac0e4bea-72a0-485f-94be-eb5f7fdf8999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\test">
+      <UniqueIdentifier>{e8c1493a-c725-4df1-8c0c-a2b92ba468bd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\MaiSoft\SxParser.c">
+      <Filter>src\MaiSoft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\helper\TimeTake.c">
+      <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\helper\DLnkList.c">
+      <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\helper\astrcpy.c">
+      <Filter>src\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\test\c_1.c">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\test\cpp_1.cpp">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\app.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\main.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\MaiSoft\SxParser.h">
+      <Filter>src\MaiSoft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\helper\_strlcpy.h">
+      <Filter>src\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\helper\astrcpy.h">
+      <Filter>src\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\helper\DLnkList.h">
+      <Filter>src\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\helper\TimeTake.h">
+      <Filter>src\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\app.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\test.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\test\base.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

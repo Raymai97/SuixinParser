@@ -1,0 +1,16 @@
+`` suixin example file
+
+`RAM
+Random Access Memory
+
+`ROM
+Read-Only Memory
+
+`CPU
+Central Processing Unit
+
+
+` the nursery rhymes of Mother Goose
+
+Roses are red. Violets are blue.
+Sugar is sweet. And so are you.
