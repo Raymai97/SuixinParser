@@ -1,7 +1,10 @@
 BIN_DIR := ../../bin/gcc
 OBJ_DIR := ../../obj/gcc
 SRC_DIR := ../../src
-FINAL_OUTPUT := $(BIN_DIR)/sxTest.exe
+FINAL_OUTPUT := $(BIN_DIR)/sxTest
+ifdef WINDIR
+FINAL_OUTPUT := $(FINAL_OUTPUT).exe
+endif
 
 ANY_C_CPP = \
 	$(wildcard $(SRC_DIR)$(1)/*.c) \
@@ -13,41 +16,53 @@ SOURCES += $(call ANY_C_CPP,/test)
 
 C_SOURCES := $(filter %.c, $(SOURCES))
 CPP_SOURCES := $(filter %.cpp, $(SOURCES))
-SOURCE_DEPENDS := $(foreach ITEM, $(subst $(SRC_DIR)/,,$(SOURCES)), depend/$(ITEM).d)
+SRC_DEPENDS := $(foreach ITEM, $(subst $(SRC_DIR)/,,$(SOURCES)), depend/$(ITEM).d)
 
 C_OBJECTS := $(patsubst %.c, %.c.o, $(C_SOURCES))
 C_OBJECTS := $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%, $(C_OBJECTS))
 CPP_OBJECTS := $(patsubst %.cpp, %.cpp.o, $(CPP_SOURCES))
 CPP_OBJECTS := $(patsubst $(SRC_DIR)%, $(OBJ_DIR)%, $(CPP_OBJECTS))
 
-CC_FLAG1 := -O2 -I'$(SRC_DIR)'
-define COMPILE1 =
-	mkdir -p $(dir $@)
-	mkdir -p depend/$(dir $(subst $(SRC_DIR)/,,$<))
-	gcc $(CC_FLAG1) -c '$<' -o'$@'
-	gcc $(CC_FLAG1) -MM '$<' -MT '$@' > depend/$(subst $(SRC_DIR)/,,$<).d
+SRC_PATH_AFTER_SRC_DIR = $(subst $(SRC_DIR)/,,$<)
+define COMPILE =
+	@echo Compile: $(SRC_PATH_AFTER_SRC_DIR)
+	@mkdir -p $(dir $@)
+	@mkdir -p depend/$(dir $(SRC_PATH_AFTER_SRC_DIR))
+	@gcc $1 -c '$<' -o'$@'
+	@gcc $1 -MM '$<' -MT '$@' > depend/$(SRC_PATH_AFTER_SRC_DIR).d
 endef
 
-$(FINAL_OUTPUT): $(C_OBJECTS) $(CPP_OBJECTS)
-	mkdir -p $(BIN_DIR)
-	gcc -s -o'$@' $(C_OBJECTS) $(CPP_OBJECTS) -lstdc++
-	@echo 
-	@echo MAKE succeeded! See:
-	@echo $(abspath $(FINAL_OUTPUT))
+COMMON_FLAGS_0 := -O2 -I'$(SRC_DIR)'
+C_FLAGS_0 := $(COMMON_FLAGS_0) -std=c99 -pedantic
+CPP_FLAGS_0 := $(COMMON_FLAGS_0) -std=c++11
+LINK_LIBS := -lstdc++
 
--include $(SOURCE_DEPENDS)
+$(FINAL_OUTPUT): $(C_OBJECTS) $(CPP_OBJECTS)
+	@echo Link as: $(abspath $(FINAL_OUTPUT))
+	@mkdir -p $(BIN_DIR)
+	@gcc -s -o'$@' $(C_OBJECTS) $(CPP_OBJECTS) $(LINK_LIBS)
+
+-include $(SRC_DEPENDS)
 
 $(OBJ_DIR)/%.c.o: $(SRC_DIR)/%.c
-	$(COMPILE1)
+	$(call COMPILE, $(C_FLAGS_0))
 
 $(OBJ_DIR)/helper/%.c.o: $(SRC_DIR)/helper/%.c
-	$(COMPILE1)
+	$(call COMPILE, $(C_FLAGS_0))
 
 $(OBJ_DIR)/MaiSoft/%.c.o: $(SRC_DIR)/MaiSoft/%.c
-	$(COMPILE1)
+	$(call COMPILE, $(C_FLAGS_0))
 
 $(OBJ_DIR)/test/%.c.o: $(SRC_DIR)/test/%.c
-	$(COMPILE1)
+	$(call COMPILE, $(C_FLAGS_0))
 
 $(OBJ_DIR)/test/%.cpp.o: $(SRC_DIR)/test/%.cpp
-	$(COMPILE1)
+	$(call COMPILE, $(CPP_FLAGS_0))
+
+
+all: $(FINAL_OUTPUT)
+
+.PHONY: clean
+clean:
+	rm -rf $(OBJ_DIR)/* $(FINAL_OUTPUT)
+
